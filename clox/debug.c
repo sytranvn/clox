@@ -1,4 +1,5 @@
 #include "debug.h"
+#include "chunk.h"
 #include <stdio.h>
 
 void
@@ -30,6 +31,16 @@ disassemInstruction (Chunk *chunk, int offset)
       return simpleInstruction ("OP_RETURN", offset);
     case OP_CONST:
       return constInstruction ("OP_CONST", chunk, offset);
+    case OP_NEGATE:
+      return simpleInstruction ("OP_NEGATE", offset);
+    case OP_ADD:
+      return simpleInstruction ("OP_ADD", offset);
+    case OP_SUBSTRACT:
+      return simpleInstruction ("OP_SUBSTRACT", offset);
+    case OP_MULTIPLY:
+      return simpleInstruction ("OP_MULTIPLY", offset);
+    case OP_DIVIDE:
+      return simpleInstruction ("OP_DIVIDE", offset);
     default:
       printf ("Unknown opcode %d\n", instruction);
       return offset + 1;

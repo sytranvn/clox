@@ -1,9 +1,11 @@
 #include "vm.h"
 #include "chunk.h"
 #include "common.h"
+#include "compiler.h"
 #include "debug.h"
 #include "value.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 // TODO: allow multiple VMs run at the same time like v8
 VM vm;
@@ -25,6 +27,11 @@ void freeVM (){};
 void
 push (Value val)
 {
+  if ((vm.stackTop - vm.stack) == STACK_MAX)
+    {
+      fprintf (stderr, "Stack overflow\n");
+      exit (1);
+    }
   *vm.stackTop = val;
   vm.stackTop++;
 }
@@ -37,10 +44,9 @@ pop ()
 }
 
 InterpretResult
-interpret (Chunk *chunk)
+interpret (const char *source)
 {
-  vm.chunk = chunk;
-  vm.ip = vm.chunk->code;
+  compile (source);
   return run ();
 }
 
@@ -51,6 +57,14 @@ run ()
   // “computed goto”.
 #define READ_BYTE() (*vm.ip++)
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE ()])
+#define BINARY_OP(op)                                                         \
+  do                                                                          \
+    {                                                                         \
+      double b = pop ();                                                      \
+      double a = pop ();                                                      \
+      push (a op b);                                                          \
+    }                                                                         \
+  while (false)
 
   for (;;)
     {
@@ -77,6 +91,23 @@ run ()
             push (constant);
             break;
           }
+        case OP_ADD:
+          BINARY_OP (+);
+          break;
+        case OP_SUBSTRACT:
+          BINARY_OP (-);
+          break;
+        case OP_MULTIPLY:
+          BINARY_OP (*);
+          break;
+        case OP_DIVIDE:
+          BINARY_OP (/);
+          break;
+        case OP_NEGATE:
+          {
+            *(vm.stackTop - 1) = -(*(vm.stackTop - 1));
+            break;
+          }
         case OP_RETURN:
           printValue (pop ());
           printf ("\n");
@@ -84,6 +115,7 @@ run ()
         }
     }
 
+#undef BINARY_OP
 #undef READ_CONSTANT
 #undef READ_BYTE
 }

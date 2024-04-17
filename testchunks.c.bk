@@ -1,0 +1,26 @@
+
+  Chunk chunk;
+  initChunk (&chunk);
+
+  // -((1.2 + 3.4)/5.6)
+  int constant = addConstant (&chunk, 1.2);
+  writeChunk (&chunk, OP_CONST, 12);
+  writeChunk (&chunk, constant, 12);
+
+  constant = addConstant (&chunk, 3.4);
+  writeChunk (&chunk, OP_CONST, 12);
+  writeChunk (&chunk, constant, 12);
+
+  writeChunk (&chunk, OP_ADD, 12);
+
+  constant = addConstant (&chunk, 5.6);
+  writeChunk (&chunk, OP_CONST, 12);
+  writeChunk (&chunk, constant, 12);
+
+  writeChunk (&chunk, OP_DIVIDE, 12);
+
+  writeChunk (&chunk, OP_NEGATE, 12);
+  writeChunk (&chunk, OP_RETURN, 12);
+  // disassemChunk (&chunk, "test");
+
+  interpret (&chunk);

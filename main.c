@@ -1,23 +1,23 @@
 #include "clox/chunk.h"
 #include "clox/debug.h"
+#include "clox/relp.h"
 #include "clox/vm.h"
 #include <stdio.h>
 int
-main ()
+main (int argc, const char **args)
 {
   initVM ();
-  Chunk chunk;
-  initChunk (&chunk);
-
-  int constant = addConstant (&chunk, 1.2);
-  writeChunk (&chunk, OP_CONST, 12);
-  writeChunk (&chunk, constant, 12);
-
-  writeChunk (&chunk, OP_RETURN, 12);
-  // disassemChunk (&chunk, "test");
-
-  interpret (&chunk);
+  if (argc == 1)
+    {
+      relp ();
+    }
+  else if (argc == 2)
+    {
+    }
+  else
+    {
+      fprintf (stderr, "%s [file]\n", args[0]);
+    }
   freeVM ();
-  freeChunk (&chunk);
   return 0;
 }
