@@ -14,7 +14,7 @@ main ()
   writeChunk (&chunk, constant, 12);
 
   writeChunk (&chunk, OP_RETURN, 12);
-  disassemChunk (&chunk, "test");
+  // disassemChunk (&chunk, "test");
 
   interpret (&chunk);
   freeVM ();

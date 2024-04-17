@@ -2,12 +2,14 @@
 #define clox_vm_h
 
 #include "chunk.h"
-#include <stdint.h>
+#include "value.h"
 
 typedef struct
 {
   Chunk *chunk;
-  uint8_t *ip;
+  uint8_t *ip; // point at the current opcode
+  Value stack[STACK_MAX];
+  Value *stackTop; // point at the top of stack
 } VM;
 
 typedef enum
@@ -20,5 +22,9 @@ typedef enum
 void initVM ();
 void freeVM ();
 InterpretResult interpret (Chunk *chunk);
+InterpretResult run ();
+
+void push (Value val);
+Value pop ();
 
 #endif

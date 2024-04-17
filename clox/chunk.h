@@ -3,6 +3,8 @@
 
 #include "value.h"
 
+#define STACK_MAX 256
+
 typedef enum
 {
   OP_CONST,
