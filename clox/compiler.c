@@ -1,13 +1,12 @@
 #include "compiler.h"
 #include "scanner.h"
 
-void
-compile (const char *source)
+bool
+compile (const char *source, Chunk *chunk)
 {
   initScanner (source);
 
-  for (;;)
-    {
-      Token token = scanToken ();
-    }
+  advance ();
+
+  consume (TOKEN_EOF, "Expect end of expression");
 }

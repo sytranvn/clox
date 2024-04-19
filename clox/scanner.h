@@ -1,7 +1,8 @@
 #ifndef clox_scanner_h
 #define clox_scanner_h
 
-#include "vm.h"
+#include "common.h"
+
 typedef enum
 {
   // clang-format off
@@ -44,6 +45,7 @@ typedef struct
 void initScanner (const char *source);
 Token scanToken ();
 
-Token makeErrorToken ();
+Token errorToken (const char *name);
 Token makeToken (TokenType tokenType);
+
 #endif
