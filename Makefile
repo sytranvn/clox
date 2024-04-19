@@ -1,6 +1,6 @@
 .PHONY: clean config build
 
-all: clean config build
+all: config build
 
 clean:
 	rm -rf build
