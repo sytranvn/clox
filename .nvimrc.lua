@@ -1,2 +1,2 @@
-vim.opt.makeprg = "cmake --build build"
+vim.opt.makeprg = "make build"
 vim.g.CopilotEnabled = false

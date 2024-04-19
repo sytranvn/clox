@@ -84,7 +84,6 @@ run ()
     {
 
 #ifdef DEBUG_TRACE_EXECUTION
-
       printf ("          ");
       for (Value *slot = vm.stack; slot != vm.stackTop; slot++)
         {
